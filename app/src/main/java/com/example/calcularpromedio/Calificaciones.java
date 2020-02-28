@@ -39,35 +39,44 @@ public class Calificaciones extends AppCompatActivity {
 
         String nombre = getIntent().getExtras().getString("nombre");
 
-        Log.e(">>>",nombre);
-
-        //double doble = Double.parseDouble("el string chingon");
-
         calcularBtn.setOnClickListener(
 
-                (v) ->{
+                (v) -> {
 
-                    String notaParcial1 = parcial1.getText().toString();
-                    String notaParcial2 = parcial2.getText().toString();
-                    String notaTaller1 = taller1.getText().toString();
-                    String notaTaller2 = taller2.getText().toString();
-                    String notaQuices1 = quicesTeoricos.getText().toString();
-                    String notaQuices2 = quicesPracticos.getText().toString();
-                    String notaEjercicios = ejercicios.getText().toString();
-                    String notaProyectoFinal = proyectoFinal.getText().toString();
+                    if (parcial1.getText().toString().equals("") || parcial2.getText().toString().equals("") ||
+                            taller1.getText().toString().equals("") || taller2.getText().toString().equals("") ||
+                            quicesPracticos.getText().toString().equals("") || quicesTeoricos.getText().toString().equals("") ||
+                            ejercicios.getText().toString().equals("") || proyectoFinal.getText().toString().equals("")) {
 
-                    Intent resultado = new Intent(Calificaciones.this,Resultado.class);
-                    resultado.putExtra("name",nombre);
-                    resultado.putExtra("notaParcial1",notaParcial1);
-                    resultado.putExtra("notaParcial2",notaParcial2);
-                    resultado.putExtra("notaTaller1",notaTaller1);
-                    resultado.putExtra("notaTaller2",notaTaller2);
-                    resultado.putExtra("notaQuices1",notaQuices1);
-                    resultado.putExtra("notaQuices2",notaQuices2);
-                    resultado.putExtra("notaEjercicios",notaEjercicios);
-                    resultado.putExtra("notaProyectoFinal",notaProyectoFinal);
+                        //mensaje falta una nota
 
-                    startActivity(resultado);
+
+                    } else {
+
+                        double notaParcial1 = Double.parseDouble(parcial1.getText().toString()) * 0.15;
+                        double notaParcial2 = Double.parseDouble(parcial2.getText().toString()) * 0.15;
+                        double notaTaller1 = Double.parseDouble(taller1.getText().toString()) * 0.15;
+                        double notaTaller2 = Double.parseDouble(taller2.getText().toString()) * 0.15;
+                        double notaQuices1 = Double.parseDouble(quicesTeoricos.getText().toString()) * 0.10;
+                        double notaQuices2 = Double.parseDouble(quicesPracticos.getText().toString()) * 0.05;
+                        double notaEjercicios = Double.parseDouble(ejercicios.getText().toString()) * 0.05;
+                        double notaProyectoFinal = Double.parseDouble(proyectoFinal.getText().toString()) * 0.20;
+
+
+                        double calculo = notaParcial1 + notaParcial2 + notaTaller1 + notaTaller2 + notaQuices1 + notaQuices2 + notaEjercicios + notaProyectoFinal;
+
+
+                        String notaFinal = String.valueOf(calculo);
+
+                        Log.e(">>>", notaFinal);
+
+                        Intent resultado = new Intent(Calificaciones.this, Resultado.class);
+                        resultado.putExtra("name", nombre);
+                        resultado.putExtra("nota", notaFinal);
+                        startActivity(resultado);
+                    }
+
+
                 }
 
         );
